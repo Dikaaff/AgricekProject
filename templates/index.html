@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRICEK - Prediksi Cuaca & Chatbot Agronomi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+            --dark-text: #2d3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #28a745 0%, #28a745 100%);
+            min-height: 100vh;
+            color: var(--dark-text);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+
+        .hero-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 2rem 0;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, var(--primary-color), #6c5ce7);
+            color: white;
+            border: none;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .weather-display {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .weather-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .weather-temp {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f8f9fa;
+        }
+
+        .chat-message {
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .chat-message.user {
+            text-align: right;
+        }
+
+        .chat-bubble {
+            display: inline-block;
+            padding: 0.8rem 1.2rem;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .chat-bubble.user {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .chat-bubble.ai {
+            background: #e9ecef;
+            color: var(--dark-text);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), #6c5ce7);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-control, .form-select {
+            border-radius: 15px;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(79, 140, 244, 0.25);
+        }
+
+        .recommendation-item {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--success-color);
+            border-radius: 10px;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .plant-analysis {
+            background: linear-gradient(135deg, #a8e6cf, #dcedc8);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .health-status {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .health-status.sehat { color: var(--success-color); }
+        .health-status.perlu-perhatian { color: var(--warning-color); }
+        .health-status.kurang-optimal { color: var(--danger-color); }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+            
+            .weather-temp {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-seedling me-2"></i>
+                AGRICEK
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#weather">Cuaca</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#chatbot">Chatbot</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#analysis">Analisis Tanaman</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container" style="margin-top: 100px;">
+        <!-- Hero Section -->
+        <div class="hero-section fade-in">
+            <h1><i class="fas fa-cloud-sun me-3"></i>AGRICEK</h1>
+            <p>Prediksi Cuaca & Konsultasi Pertanian Gratis untuk Petani Indonesia</p>
+            <div class="mt-4">
+                <a href="#weather" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-cloud-sun me-2"></i>Cek Cuaca
+                </a>
+                <a href="#chatbot" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-comments me-2"></i>Tanya Ahli
+                </a>
+            </div>
+        </div>
+
+        <!-- Weather Section -->
+        <section id="weather">
+            <div class="card feature-card fade-in">
+                <div class="card-header">
+                    <i class="fas fa-cloud-sun me-2"></i>Prediksi Cuaca Pertanian
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Masukkan Nama Kota:</label>
+                                <input type="text" class="form-control" id="locationInput" 
+                                       placeholder="Contoh: Jakarta, Yogyakarta, Surabaya">
+                            </div>
+                            <button class="btn btn-primary" onclick="getWeather()">
+                                <i class="fas fa-search me-2"></i>Cek Cuaca
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="weatherResult" class="d-none">
+                                <div class="weather-display">
+                                    <div id="weatherIcon" class="weather-icon">☀️</div>
+                                    <div id="weatherTemp" class="weather-temp">--°C</div>
+                                    <div id="weatherDesc">--</div>
+                                    <hr>
+                                    <div class="row text-start">
+                                        <div class="col-6">
+                                            <small>Kelembapan: <span id="weatherHumidity">--%</span></small>
+                                        </div>
+                                        <div class="col-6">
+                                            <small>Angin: <span id="weatherWind">-- m/s</span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="weatherRecommendations" class="mt-3"></div>
+                            </div>
+                            <div id="weatherLoading" class="loading d-none">
+                                <div class="spinner-border text-primary" role="status"></div>
+                                <p class="mt-2">Mengambil data cuaca...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chatbot Section -->
+        <section id="chatbot">
+            <div class="card feature-card fade-in">
+                <div class="card-header">
+                    <i class="fas fa-robot me-2"></i>Chatbot Agronomi AI
+                </div>
+                <div class="card-body">
+                    <div id="chatContainer" class="chat-container">
+                        <div class="chat-message">
+                            <div class="chat-bubble ai">
+                                Halo! Saya asisten agronomi AI. Silakan tanya tentang pertanian, tanaman, hama, pupuk, atau budidaya. 
+                                Contoh: "Tanaman tomat saya layu, apa penyebabnya?"
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="chatInput" 
+                               placeholder="Tanya tentang pertanian...">
+                        <button class="btn btn-primary" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plant Analysis Section -->
+        <section id="analysis">
+            <div class="card feature-card fade-in">
+                <div class="card-header">
+                    <i class="fas fa-leaf me-2"></i>Analisis Kesehatan Tanaman
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Upload Foto Tanaman:</label>
+                                <input type="file" class="form-control" id="plantImage" 
+                                       accept="image/*" onchange="previewImage()">
+                            </div>
+                            <div id="imagePreview" class="mb-3 d-none">
+                                <img id="previewImg" src="" class="img-fluid rounded" style="max-height: 300px;">
+                            </div>
+                            <button class="btn btn-primary" onclick="analyzePlant()">
+                                <i class="fas fa-search me-2"></i>Analisis Tanaman
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="analysisResult" class="d-none">
+                                <div class="plant-analysis">
+                                    <div id="healthStatus" class="health-status">Status: --</div>
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <small>Hijau: <span id="greenPercent">--%</span></small>
+                                        </div>
+                                        <div class="col-6">
+                                            <small>Kuning: <span id="yellowPercent">--%</span></small>
+                                        </div>
+                                    </div>
+                                    <div id="plantRecommendations"></div>
+                                </div>
+                            </div>
+                            <div id="analysisLoading" class="loading d-none">
+                                <div class="spinner-border text-primary" role="status"></div>
+                                <p class="mt-2">Menganalisis tanaman...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-seedling me-2"></i>AGRICEK</h5>
+                    <p>Platform digital untuk mendukung petani Indonesia dengan teknologi modern.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>&copy; 2024 AGRICEK. Semua hak cipta dilindungi.</p>
+                    <p>Kontak: info@agricek.id | +62-123-456-7890</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Weather Functions
+        async function getWeather() {
+            const location = document.getElementById('locationInput').value.trim();
+            if (!location) {
+                alert('Masukkan nama kota terlebih dahulu!');
+                return;
+            }
+
+            document.getElementById('weatherLoading').classList.remove('d-none');
+            document.getElementById('weatherResult').classList.add('d-none');
+
+            try {
+                const response = await fetch('/weather', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ location: location })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayWeather(data);
+                } else {
+                    alert(data.error || 'Terjadi kesalahan saat mengambil data cuaca');
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan koneksi');
+            }
+
+            document.getElementById('weatherLoading').classList.add('d-none');
+        }
+
+        function displayWeather(data) {
+            document.getElementById('weatherTemp').textContent = data.temperature + '°C';
+            document.getElementById('weatherDesc').textContent = data.description;
+            document.getElementById('weatherHumidity').textContent = data.humidity + '%';
+            document.getElementById('weatherWind').textContent = data.wind_speed + ' m/s';
+            
+            // Weather icon
+            const iconMap = {
+                '01d': '☀️', '01n': '🌙', '02d': '⛅', '02n': '☁️',
+                '03d': '☁️', '03n': '☁️', '04d': '☁️', '04n': '☁️',
+                '09d': '🌧️', '09n': '🌧️', '10d': '🌦️', '10n': '🌧️',
+                '11d': '⛈️', '11n': '⛈️', '13d': '🌨️', '13n': '🌨️',
+                '50d': '🌫️', '50n': '🌫️'
+            };
+            document.getElementById('weatherIcon').textContent = iconMap[data.icon] || '🌤️';
+            
+            // Recommendations
+            const recommendationsHtml = data.recommendation.map(rec => 
+                `<div class="recommendation-item">${rec}</div>`
+            ).join('');
+            document.getElementById('weatherRecommendations').innerHTML = recommendationsHtml;
+            
+            document.getElementById('weatherResult').classList.remove('d-none');
+        }
+
+        // Chat Functions
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Display user message
+            addChatMessage(message, 'user');
+            input.value = '';
+
+            // Show loading
+            addChatMessage('Mengetik...', 'ai', true);
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+                
+                // Remove loading message
+                removeChatLoading();
+                
+                if (response.ok) {
+                    addChatMessage(data.reply, 'ai');
+                } else {
+                    addChatMessage(data.error || 'Maaf, terjadi kesalahan.', 'ai');
+                }
+            } catch (error) {
+                removeChatLoading();
+                addChatMessage('Maaf, terjadi kesalahan koneksi.', 'ai');
+            }
+        }
+
+        function addChatMessage(message, sender, isLoading = false) {
+            const container = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            if (isLoading) messageDiv.id = 'loadingMessage';
+            
+            messageDiv.innerHTML = `
+                <div class="chat-bubble ${sender}">
+                    ${message}
+                </div>
+            `;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function removeChatLoading() {
+            const loadingMsg = document.getElementById('loadingMessage');
+            if (loadingMsg) loadingMsg.remove();
+        }
+
+        // Plant Analysis Functions
+        function previewImage() {
+            const input = document.getElementById('plantImage');
+            const preview = document.getElementById('imagePreview');
+            const img = document.getElementById('previewImg');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    preview.classList.remove('d-none');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function analyzePlant() {
+            const input = document.getElementById('plantImage');
+            if (!input.files || !input.files[0]) {
+                alert('Pilih foto tanaman terlebih dahulu!');
+                return;
+            }
+
+            document.getElementById('analysisLoading').classList.remove('d-none');
+            document.getElementById('analysisResult').classList.add('d-none');
+
+            const formData = new FormData();
+            formData.append('image', input.files[0]);
+
+            try {
+                const response = await fetch('/analyze-plant', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayAnalysis(data);
+                } else {
+                    alert(data.error || 'Terjadi kesalahan saat menganalisis gambar');
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan koneksi');
+            }
+
+            document.getElementById('analysisLoading').classList.add('d-none');
+        }
+
+        function displayAnalysis(data) {
+            const statusElement = document.getElementById('healthStatus');
+            statusElement.textContent = `Status: ${data.health_status}`;
+            
+            // Set status color
+            statusElement.className = 'health-status';
+            if (data.health_status === 'Sehat') {
+                statusElement.classList.add('sehat');
+            } else if (data.health_status === 'Perlu Perhatian') {
+                statusElement.classList.add('perlu-perhatian');
+            } else {
+                statusElement.classList.add('kurang-optimal');
+            }
+            
+            document.getElementById('greenPercent').textContent = data.green_percentage + '%';
+            document.getElementById('yellowPercent').textContent = data.yellow_percentage + '%';
+            
+            // Display recommendations
+            const recommendationsHtml = data.recommendations.map(rec => 
+                `<div class="recommendation-item">${rec}</div>`
+            ).join('');
+            document.getElementById('plantRecommendations').innerHTML = recommendationsHtml;
+            
+            document.getElementById('analysisResult').classList.remove('d-none');
+        }
+
+        // Event Listeners
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        document.getElementById('locationInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                getWeather();
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

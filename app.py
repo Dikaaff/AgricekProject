@@ -11,8 +11,8 @@ import base64
 app = Flask(__name__)
 
 # API Keys
-OPENWEATHER_API_KEY = "d0ff9440720df3aad4948cf508f124c6"
-DEEPSEEK_API_KEY = "sk-51853c0c20cf45f9819d6ea4c42e2a82"
+OPENWEATHER_API_KEY = "secret"
+DEEPSEEK_API_KEY = "secret"
 
 @app.route('/')
 def index():
@@ -25,7 +25,7 @@ def chat_with_ai():
         message = data.get('message', '')
 
         # OpenRouter API config
-        OPENROUTER_API_KEY = "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"
+        OPENROUTER_API_KEY = "secret"
         OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
         headers = {

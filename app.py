@@ -7,12 +7,19 @@ import numpy as np
 from PIL import Image
 import io
 import base64
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
 # API Keys
+<<<<<<< HEAD
 OPENWEATHER_API_KEY = "secret"
 DEEPSEEK_API_KEY = "secret"
+=======
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+>>>>>>> 73621cf (Update API key system and environment variable support)
 
 @app.route('/')
 def index():
@@ -25,7 +32,11 @@ def chat_with_ai():
         message = data.get('message', '')
 
         # OpenRouter API config
+<<<<<<< HEAD
         OPENROUTER_API_KEY = "secret"
+=======
+        OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+>>>>>>> 73621cf (Update API key system and environment variable support)
         OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
         headers = {
@@ -221,4 +232,8 @@ def analyze_plant_health(image):
     }
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+=======
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+>>>>>>> 73621cf (Update API key system and environment variable support)

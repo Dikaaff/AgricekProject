@@ -6,15 +6,28 @@
     <title>AGRICEK - Prediksi Cuaca & Chatbot Agronomi</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png">
     <style>
         :root {
-            --primary-color: #28a745;
-            --secondary-color: #6c757d;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --light-bg: #f8f9fa;
-            --dark-text: #2d3748;
+            --primary-green: #2E7D32;
+            --light-green: #4CAF50;
+            --accent-green: #66BB6A;
+            --soft-green: #E8F5E8;
+            --blue-cta: #1976D2;
+            --blue-hover: #1565C0;
+            --white: #FFFFFF;
+            --light-gray: #F8F9FA;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #424242;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.16);
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -24,78 +37,166 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #28a745 0%, #28a745 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--soft-green) 0%, var(--white) 100%);
             min-height: 100vh;
-            color: var(--dark-text);
+            color: var(--text-primary);
+            line-height: 1.6;
         }
 
+        /* Navbar Styles */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            background: var(--white);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-light);
+            border-bottom: 1px solid var(--medium-gray);
+            padding: 1rem 0;
         }
 
         .navbar-brand {
-            font-weight: bold;
-            font-size: 1.8rem;
-            color: var(--primary-color) !important;
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--primary-green) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
+        .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-link {
+            color: var(--text-primary) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background: var(--soft-green);
+            color: var(--primary-green) !important;
+        }
+
+        /* Hero Section */
         .hero-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            border-radius: var(--border-radius-lg);
             margin: 2rem 0;
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
             text-align: center;
-            color: white;
-        }
-
-        .hero-section h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .hero-section p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            margin-bottom: 2rem;
+            color: var(--white);
+            position: relative;
             overflow: hidden;
         }
 
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-buttons {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: var(--blue-cta);
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:hover {
+            background: var(--blue-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .btn-outline-light {
+            border: 2px solid var(--white);
+            color: var(--white);
+            padding: 0.875rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            background: transparent;
+            transition: var(--transition);
+        }
+
+        .btn-outline-light:hover {
+            background: var(--white);
+            color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        /* Card Styles */
+        .feature-card {
+            background: var(--white);
+            border: none;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--medium-gray);
+        }
+
         .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-heavy);
         }
 
         .card-header {
-            background: linear-gradient(45deg, var(--primary-color), #6c5ce7);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+            color: var(--white);
             border: none;
-            padding: 1.5rem;
-            font-size: 1.3rem;
-            font-weight: bold;
+            padding: 1.5rem 2rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .card-body {
             padding: 2rem;
         }
 
+        /* Weather Display */
         .weather-display {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
-            color: white;
-            border-radius: 15px;
+            background: linear-gradient(135deg, var(--soft-green) 0%, var(--white) 100%);
+            border: 2px solid var(--accent-green);
+            color: var(--text-primary);
+            border-radius: var(--border-radius);
             padding: 2rem;
             margin: 1rem 0;
             text-align: center;
@@ -104,22 +205,31 @@
         .weather-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
+            color: var(--primary-green);
         }
 
         .weather-temp {
             font-size: 3rem;
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 0.5rem;
+            color: var(--primary-green);
         }
 
+        .weather-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Chat Styles */
         .chat-container {
             height: 400px;
             overflow-y: auto;
-            border: 1px solid #dee2e6;
-            border-radius: 15px;
-            padding: 1rem;
+            border: 2px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
             margin-bottom: 1rem;
-            background: #f8f9fa;
+            background: var(--light-gray);
         }
 
         .chat-message {
@@ -133,91 +243,161 @@
 
         .chat-bubble {
             display: inline-block;
-            padding: 0.8rem 1.2rem;
-            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
             max-width: 80%;
             word-wrap: break-word;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         .chat-bubble.user {
-            background: var(--primary-color);
-            color: white;
+            background: var(--primary-green);
+            color: var(--white);
         }
 
         .chat-bubble.ai {
-            background: #e9ecef;
-            color: var(--dark-text);
+            background: var(--white);
+            color: var(--text-primary);
+            border: 1px solid var(--medium-gray);
         }
 
-        .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), #6c5ce7);
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
+        /* Form Styles */
         .form-control, .form-select {
-            border-radius: 15px;
-            padding: 0.8rem 1rem;
-            border: 2px solid #e9ecef;
-            transition: all 0.3s ease;
+            border-radius: var(--border-radius);
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--medium-gray);
+            transition: var(--transition);
+            font-size: 1rem;
+            background: var(--white);
         }
 
         .form-control:focus, .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(79, 140, 244, 0.25);
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+            background: var(--white);
         }
 
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Recommendation Styles */
         .recommendation-item {
-            background: rgba(40, 167, 69, 0.1);
-            border: 1px solid var(--success-color);
-            border-radius: 10px;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
+            background: var(--soft-green);
+            border: 1px solid var(--accent-green);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 0.75rem 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
+        /* Plant Analysis */
+        .plant-analysis {
+            background: linear-gradient(135deg, var(--soft-green) 0%, var(--white) 100%);
+            border: 2px solid var(--accent-green);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 1rem 0;
+        }
+
+        .health-status {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            background: var(--white);
+        }
+
+        .health-status.sehat { 
+            color: var(--light-green);
+            border: 2px solid var(--light-green);
+        }
+        .health-status.perlu-perhatian { 
+            color: #FF9800;
+            border: 2px solid #FF9800;
+        }
+        .health-status.kurang-optimal { 
+            color: #F44336;
+            border: 2px solid #F44336;
+        }
+
+        /* Loading Styles */
         .loading {
             text-align: center;
-            color: var(--primary-color);
+            color: var(--primary-green);
+            padding: 2rem;
         }
 
         .spinner-border {
             width: 3rem;
             height: 3rem;
+            border-color: var(--primary-green);
+            border-right-color: transparent;
         }
 
-        .plant-analysis {
-            background: linear-gradient(135deg, #a8e6cf, #dcedc8);
-            border-radius: 15px;
-            padding: 1.5rem;
+        /* Subscription Modal */
+        .subscription-modal {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .subscription-card {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-heavy);
+            border: 1px solid var(--medium-gray);
+        }
+
+        .subscription-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            text-align: center;
             margin: 1rem 0;
         }
 
-        .health-status {
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
+        .subscription-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .subscription-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subscription-features li i {
+            color: var(--light-green);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-green);
+            color: var(--white);
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        footer h5 {
+            font-weight: 700;
             margin-bottom: 1rem;
         }
 
-        .health-status.sehat { color: var(--success-color); }
-        .health-status.perlu-perhatian { color: var(--warning-color); }
-        .health-status.kurang-optimal { color: var(--danger-color); }
-
-        footer {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
+        footer p {
+            opacity: 0.9;
+            line-height: 1.6;
         }
 
+        /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -233,22 +413,91 @@
             animation: fadeInUp 0.6s ease;
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 1.5rem;
+            }
+            
             .hero-section h1 {
-                font-size: 2rem;
+                font-size: 2.25rem;
             }
             
             .hero-section p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
             .card-body {
-                padding: 1rem;
+                padding: 1.5rem;
             }
             
             .weather-temp {
                 font-size: 2.5rem;
             }
+
+            .btn-primary, .btn-outline-light {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.95rem;
+            }
+
+            .chat-container {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .card-header {
+                padding: 1rem 1.5rem;
+                font-size: 1.1rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+        }
+
+        /* Premium Badge */
+        .premium-badge {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: var(--text-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            display: inline-block;
+        }
+
+        /* Disabled State */
+        .feature-disabled {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .feature-disabled::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--border-radius);
         }
     </style>
 </head>
@@ -257,7 +506,7 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-seedling me-2"></i>
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 59px; margin-right: 10px;">
                 AGRICEK
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -266,13 +515,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#weather">Cuaca</a>
+                        <a class="nav-link" href="#weather">
+                            <i class="fas fa-cloud-sun me-1"></i>Cuaca
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#chatbot">Chatbot</a>
+                        <a class="nav-link" href="#chatbot">
+                            <i class="fas fa-comments me-1"></i>Chatbot
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#analysis">Analisis Tanaman</a>
+                        <a class="nav-link" href="#analysis">
+                            <i class="fas fa-leaf me-1"></i>Analisis Tanaman
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-lg-3" href="#" data-bs-toggle="modal" data-bs-target="#subscriptionModal">
+                            <i class="fas fa-crown me-2"></i>Berlangganan Premium
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -283,14 +543,14 @@
     <div class="container" style="margin-top: 100px;">
         <!-- Hero Section -->
         <div class="hero-section fade-in">
-            <h1><i class="fas fa-cloud-sun me-3"></i>AGRICEK</h1>
-            <p>Prediksi Cuaca & Konsultasi Pertanian Gratis untuk Petani Indonesia</p>
-            <div class="mt-4">
+            <h1><i class="fas fa-seedling me-3"></i>AGRICEK</h1>
+            <p>Platform digital terdepan untuk prediksi cuaca dan konsultasi pertanian yang membantu petani Indonesia meningkatkan produktivitas dengan teknologi modern</p>
+            <div class="hero-buttons">
                 <a href="#weather" class="btn btn-primary btn-lg me-3">
-                    <i class="fas fa-cloud-sun me-2"></i>Cek Cuaca
+                    <i class="fas fa-cloud-sun me-2"></i>Cek Cuaca Sekarang
                 </a>
                 <a href="#chatbot" class="btn btn-outline-light btn-lg">
-                    <i class="fas fa-comments me-2"></i>Tanya Ahli
+                    <i class="fas fa-robot me-2"></i>Konsultasi AI
                 </a>
             </div>
         </div>
@@ -299,13 +559,14 @@
         <section id="weather">
             <div class="card feature-card fade-in">
                 <div class="card-header">
-                    <i class="fas fa-cloud-sun me-2"></i>Prediksi Cuaca Pertanian
+                    <i class="fas fa-cloud-sun"></i>
+                    Prediksi Cuaca Pertanian
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Masukkan Nama Kota:</label>
+                                <label class="form-label">Masukkan Nama Kota</label>
                                 <input type="text" class="form-control" id="locationInput" 
                                        placeholder="Contoh: Jakarta, Yogyakarta, Surabaya">
                             </div>
@@ -318,21 +579,21 @@
                                 <div class="weather-display">
                                     <div id="weatherIcon" class="weather-icon">☀️</div>
                                     <div id="weatherTemp" class="weather-temp">--°C</div>
-                                    <div id="weatherDesc">--</div>
-                                    <hr>
+                                    <div id="weatherDesc" class="weather-desc">--</div>
+                                    <hr style="border-color: var(--accent-green);">
                                     <div class="row text-start">
                                         <div class="col-6">
-                                            <small>Kelembapan: <span id="weatherHumidity">--%</span></small>
+                                            <small><strong>Kelembapan:</strong> <span id="weatherHumidity">--%</span></small>
                                         </div>
                                         <div class="col-6">
-                                            <small>Angin: <span id="weatherWind">-- m/s</span></small>
+                                            <small><strong>Angin:</strong> <span id="weatherWind">-- m/s</span></small>
                                         </div>
                                     </div>
                                 </div>
                                 <div id="weatherRecommendations" class="mt-3"></div>
                             </div>
                             <div id="weatherLoading" class="loading d-none">
-                                <div class="spinner-border text-primary" role="status"></div>
+                                <div class="spinner-border" role="status"></div>
                                 <p class="mt-2">Mengambil data cuaca...</p>
                             </div>
                         </div>
@@ -345,7 +606,8 @@
         <section id="chatbot">
             <div class="card feature-card fade-in">
                 <div class="card-header">
-                    <i class="fas fa-robot me-2"></i>Chatbot Agronomi AI
+                    <i class="fas fa-robot"></i>
+                    Chatbot Agronomi AI
                 </div>
                 <div class="card-body">
                     <div id="chatContainer" class="chat-container">
@@ -371,13 +633,14 @@
         <section id="analysis">
             <div class="card feature-card fade-in">
                 <div class="card-header">
-                    <i class="fas fa-leaf me-2"></i>Analisis Kesehatan Tanaman
+                    <i class="fas fa-leaf"></i>
+                    Analisis Kesehatan Tanaman
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Upload Foto Tanaman:</label>
+                                <label class="form-label">Upload Foto Tanaman</label>
                                 <input type="file" class="form-control" id="plantImage" 
                                        accept="image/*" onchange="previewImage()">
                             </div>
@@ -404,7 +667,7 @@
                                 </div>
                             </div>
                             <div id="analysisLoading" class="loading d-none">
-                                <div class="spinner-border text-primary" role="status"></div>
+                                <div class="spinner-border" role="status"></div>
                                 <p class="mt-2">Menganalisis tanaman...</p>
                             </div>
                         </div>
@@ -414,17 +677,81 @@
         </section>
     </div>
 
+    <!-- Subscription Modal -->
+    <div class="modal fade subscription-modal" id="subscriptionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content subscription-card">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="subscriptionModalLabel">Berlangganan Premium AGRICEK</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center text-muted mb-4">Dapatkan akses ke fitur-fitur premium dengan akurasi dan dukungan yang lebih baik!</p>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="subscription-option p-3 border rounded-3 h-100">
+                                <div class="text-center mb-3">
+                                    <i class="fas fa-robot" style="font-size: 2.5rem; color: var(--primary-green);"></i>
+                                    <h4 class="mt-2">Chatbot Agronomi AI</h4>
+                                    <div class="subscription-price">Rp 20.000<small>/bulan</small></div>
+                                </div>
+                                <ul class="subscription-features">
+                                    <li><i class="fas fa-check"></i> Konsultasi pertanian 24/7</li>
+                                    <li><i class="fas fa-check"></i> Diagnosis hama dan penyakit lebih akurat</li>
+                                    <li><i class="fas fa-check"></i> Rekomendasi pupuk dan pestisida personal</li>
+                                    <li><i class="fas fa-check"></i> Tips budidaya tanaman eksklusif</li>
+                                    <li><i class="fas fa-check"></i> Panduan musim tanam terperinci</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="subscription-option p-3 border rounded-3 h-100">
+                                <div class="text-center mb-3">
+                                    <i class="fas fa-leaf" style="font-size: 2.5rem; color: var(--primary-green);"></i>
+                                    <h4 class="mt-2">Analisis Tanaman AI</h4>
+                                    <div class="subscription-price">Rp 28.000<small>/bulan</small></div>
+                                </div>
+                                <ul class="subscription-features">
+                                    <li><i class="fas fa-check"></i> Analisis foto tanaman instan & akurat</li>
+                                    <li><i class="fas fa-check"></i> Deteksi penyakit dan hama tingkat lanjut</li>
+                                    <li><i class="fas fa-check"></i> Persentase kesehatan daun detail</li>
+                                    <li><i class="fas fa-check"></i> Rekomendasi perawatan spesifik</li>
+                                    <li><i class="fas fa-check"></i> Riwayat analisis tanaman lengkap</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="alert('Fitur pembayaran akan segera tersedia! Terima kasih atas minat Anda.');">
+                        <i class="fas fa-credit-card me-2"></i>Berlangganan Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5><i class="fas fa-seedling me-2"></i>AGRICEK</h5>
-                    <p>Platform digital untuk mendukung petani Indonesia dengan teknologi modern.</p>
+                    <h5><img src="/static/agricek_logo.png" alt="AGRICEK Logo" style="height: 30px; margin-right: 10px;">AGRICEK</h5>
+                    <p>Platform digital terdepan untuk mendukung petani Indonesia dengan teknologi AI dan prediksi cuaca akurat. Tingkatkan produktivitas pertanian Anda bersama kami.</p>
+                    <div class="mt-3">
+                        <i class="fab fa-facebook me-3" style="font-size: 1.5rem;"></i>
+                        <i class="fab fa-instagram me-3" style="font-size: 1.5rem;"></i>
+                        <i class="fab fa-twitter me-3" style="font-size: 1.5rem;"></i>
+                        <i class="fab fa-youtube" style="font-size: 1.5rem;"></i>
+                    </div>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p>&copy; 2024 AGRICEK. Semua hak cipta dilindungi.</p>
-                    <p>Kontak: info@agricek.id | +62-123-456-7890</p>
+                    <h6>Hubungi Kami</h6>
+                    <p>Email: info@agricek.id<br>
+                    Telepon: +62-123-456-7890<br>
+                    WhatsApp: +62-812-3456-7890</p>
+                    <p class="mt-3">&copy; 2024 AGRICEK. Semua hak cipta dilindungi undang-undang.</p>
                 </div>
             </div>
         </div>
@@ -484,7 +811,7 @@
             
             // Recommendations
             const recommendationsHtml = data.recommendation.map(rec => 
-                `<div class="recommendation-item">${rec}</div>`
+                `<div class="recommendation-item"><i class="fas fa-lightbulb me-2"></i>${rec}</div>`
             ).join('');
             document.getElementById('weatherRecommendations').innerHTML = recommendationsHtml;
             
@@ -618,7 +945,7 @@
             
             // Display recommendations
             const recommendationsHtml = data.recommendations.map(rec => 
-                `<div class="recommendation-item">${rec}</div>`
+                `<div class="recommendation-item"><i class="fas fa-lightbulb me-2"></i>${rec}</div>`
             ).join('');
             document.getElementById('plantRecommendations').innerHTML = recommendationsHtml;
             
@@ -680,3 +1007,4 @@
     </script>
 </body>
 </html>
+
